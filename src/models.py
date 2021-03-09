@@ -105,7 +105,7 @@ class BfsCNN(nn.Module):
 
 
 if __name__ == '__main__':
-    x = torch.randn([10, 1, 201, 99])
+    x = torch.randn([10, 1, 151, 77])
     print(x.shape)
     model = BfsCNN()
     output = model(x)
