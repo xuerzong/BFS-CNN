@@ -1,12 +1,12 @@
 import csv
 import os
 import numpy as np
-from typing import List
+from typing import Any
 
 array = np.ndarray
 
 
-def create_csv(filename: str, csv_head: List[str]) -> None:
+def create_csv(filename: str, csv_head: Any) -> None:
     """
     :param filename: 文件名
     :param csv_head: csv头部信息
