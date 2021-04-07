@@ -2,6 +2,7 @@ import torch
 from torch.utils.data import Dataset
 from torch.tensor import Tensor
 import numpy as np
+import math
 from typing import Tuple
 import matplotlib.pyplot as plt
 from mpl_toolkits import mplot3d
@@ -9,6 +10,8 @@ from mpl_toolkits import mplot3d
 array = np.ndarray
 LEN = 151
 
+fMin = 10.6 * math.pow(10,3)
+fMax = 10.9 * math.pow(10,3)
 
 class BGSDynamicDataSet(Dataset):
     """
@@ -39,11 +42,8 @@ def create_data(
 ) -> Tuple[Tensor, Tensor, Tensor]:
 
     bgs = np.zeros((n, LEN), dtype=array)
-
-    bfs, sw = normalization(
-        bfs=get_bfs(n=n),
-        sw=get_sw(n=n)
-    )
+    bfs = get_bfs(n=n)
+    sw = get_sw(n=n)
 
     for i in range(n):
         peak_gain = 1
@@ -51,7 +51,7 @@ def create_data(
             peak_gain=peak_gain,
             sw=sw[i],
             bfs=bfs[i]
-        )  # 生成理想BGS
+        )
         # tmp[i] = awgn(tmp[i])  # 添加白噪声
     bgs = bgs.T
     return bgs
@@ -66,7 +66,7 @@ def create_bgs(
     bfs: float
 ) -> array:
     res = np.array([])
-    for item in np.linspace(0, 1, LEN):
+    for item in np.linspace(fMin, fMax, LEN):
         tmp = peak_gain / (1 + np.square((item - bfs) / (sw / 2)))
         res = np.append(res, tmp)
     return res
@@ -75,25 +75,25 @@ def create_bgs(
 def get_bfs(
     n: int
 ) -> array:
-    bfsMin = 10.85
-    bfsMax = 10.95
-    bfsRange = bfsMax - bfsMin
-    return np.random.uniform(bfsMin + bfsRange*0.05, bfsMax - bfsRange*0.05, n)
+    return np.random.uniform(fMin + (fMax - fMin)*0.05, fMin + (fMax - fMin)*0.95, n)
 
 
 def get_sw(
     n: int
 ) -> array:
-    swMin = 0.02
-    swMax = 0.06
-    swRange = swMax - swMin
-    return np.random.uniform(swMin + swRange * 0.01, swMax - swRange * 0.05, n)
+    return np.random.uniform((fMax - fMin) * 0.1, (fMax - fMin) * 0.5, n)
+
+
+def get_snr(
+    n: int
+) -> array:
+    return np.random.uniform(5, 20, n)
 
 
 def awgn(
-    data: array
+    data: array,
+    snr: float
 ) -> array:
-    snr = np.random.uniform(5, 20)
     _signal = np.sum(data ** 2) / len(data)
     _noise = _signal / 10 ** (snr / 10)
 
@@ -105,9 +105,7 @@ def normalization(
     bfs: array,
     sw: array
 ) -> Tuple[array, array]:
-    bfsMin = np.min(bfs)
-    bfsMax = np.max(bfs)
-    return (bfs - bfsMin) / (bfsMax - bfsMin), sw / (bfsMax - bfsMin)
+    return (bfs - fMin) / (fMax - fMin), sw / (fMax - fMin)
 
 
 if __name__ == '__main__':
