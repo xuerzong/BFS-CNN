@@ -7,6 +7,13 @@ from typing import Tuple
 array = np.ndarray
 LEN = 151
 
+bfsMin = 10.85 # GHz  截取最小频率
+bfsMax = 10.95 # GHz  截取最大频率
+bfsRange = bfsMax - bfsMin
+
+swMin = 0.02 # GHz
+swMax = 0.06 # GHz
+swRange = swMax - swMin
 
 class BGSDynamicDataSet(Dataset):
     """
@@ -33,21 +40,22 @@ class BGSDynamicDataSet(Dataset):
 
 
 def create_data(n: int) -> Tuple[Tensor, Tensor, Tensor]:
-    bfs = np.random.uniform(0.05, 0.95, n) * LEN
+    bfs = np.random.uniform(bfsMin + bfsRange*0.05, bfsMax - bfsRange*0.05, n)
+    sw = np.random.uniform(swMin + swRange * 0.01, swMax - swRange * 0.05, n)
     tmp = np.zeros((n, LEN), dtype=array)
-    sw = np.array([])
+
+    bfs, sw = normalization(bfs=bfs, sw=sw)
     for i in range(n):
-        line_width = np.random.uniform(0.1, 0.5) * LEN
-        sw = np.append(sw, line_width)
-        peak_gain = 10
+        peak_gain = 1
         tmp[i] = create_bgs(
             data=tmp[i],
             peak_gain=peak_gain,
-            sw=line_width,
+            sw=sw[i],
             bfs=bfs[i]
         )  # 生成理想BGS
-        tmp[i] = awgn(tmp[i])  # 添加白噪声
+        # tmp[i] = awgn(tmp[i])  # 添加白噪声
     bgs = tmp.T
+    return tmp
     bgs = bgs / np.max(bgs)
     bfs, sw = normalization(bfs, sw)
     return torch.tensor([bgs], dtype=torch.float), \
@@ -62,7 +70,7 @@ def create_bgs(
         bfs: float
 ) -> array:
     y = np.array([])
-    for item in range(len(data)):
+    for item in np.linspace(0, 1, len(data)):
         tmp = peak_gain / (1 + np.square((item - bfs) / (sw / 2)))
         y = np.append(y, tmp)
     return y
@@ -78,9 +86,8 @@ def awgn(data: array) -> array:
 
 
 def normalization(bfs: array, sw: array) -> Tuple[array, array]:
-    return bfs / (LEN - 1), sw / (LEN - 1)
+    return (bfs - bfsMin) / bfsRange, sw / bfsRange
 
 
 if __name__ == '__main__':
-    a = create_data(3)
-    print(a)
+    pass
