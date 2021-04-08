@@ -55,7 +55,6 @@ def create_data(
             sw=sw[i],
             bfs=bfs[i]
         )
-        # tmp[i] = awgn(tmp[i])  # 添加白噪声
     bgs = bgs.T
     return bgs
     return torch.tensor([bgs], dtype=torch.float), \
@@ -113,11 +112,15 @@ def lorentz(
     return p[0] / ((x - p[1]) ** 2 + p[2])
 
 
-def multi_lorentz(p: array, x: array, z: Any) -> Any:
+def multi_lorentz(
+    p: array,
+    x: array,
+    z: Any
+) -> Any:
     return z - lorentz(p, x)
 
 
-def lorentz_fit(
+def fit_lorentz(
     x: array,
     y: array
 ) -> Tuple[float, array]:
@@ -151,6 +154,21 @@ def get_snr(
     snr = 10 * np.log10(_snr)
     return snr
 
+
+def plot_data(data: array) -> None:
+    plt.plot(np.arange(len(data)), data)
+    plt.show()
+
+
+def plot_data_3D(data: array) -> None:
+    x = np.arange(len(data[0]))
+    y = np.arange(len(data))
+    X, Y = np.meshgrid(x, y)
+    Z = data
+
+    ax = plt.axes(projection='3d')
+    ax.contour3D(X, Y, Z, x, cmap='RdBu')
+    plt.show()
 
 if __name__ == '__main__':
     pass
