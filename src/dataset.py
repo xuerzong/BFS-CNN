@@ -44,9 +44,8 @@ def create_data(
     bgs = np.zeros((n, LEN), dtype=array)
     bfs = get_bfs(n=n)
     sw = get_sw(n=n)
+    snr = get_snr(n=n)
 
-    snr_bgs = np.array([])
-    lrz_bgs = np.array([])
     for i in range(n):
         peak_gain = 1
         bgs[i] = create_bgs(
@@ -54,6 +53,8 @@ def create_data(
             sw=sw[i],
             bfs=bfs[i]
         )
+
+        bgs[i] = awgn(data=bgs[i], snr=snr[i])
     bgs = bgs.T
     return bgs
     return torch.tensor([bgs], dtype=torch.float), \
@@ -127,4 +128,3 @@ def plot_data_3D(data: array) -> None:
 
 if __name__ == '__main__':
     pass
-
