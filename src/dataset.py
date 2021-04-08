@@ -2,6 +2,7 @@ import torch
 from torch.utils.data import Dataset
 from torch.tensor import Tensor
 import numpy as np
+from scipy.optimize import leastsq
 import math
 from typing import Tuple
 import matplotlib.pyplot as plt
@@ -75,6 +76,7 @@ def create_bgs(
 def get_bfs(
     n: int
 ) -> array:
+    return np.linspace(fMin + (fMax - fMin)*0.05, fMin + (fMax - fMin)*0.95, n)
     return np.random.uniform(fMin + (fMax - fMin)*0.05, fMin + (fMax - fMin)*0.95, n)
 
 
@@ -106,6 +108,45 @@ def normalization(
     sw: array
 ) -> Tuple[array, array]:
     return (bfs - fMin) / (fMax - fMin), sw / (fMax - fMin)
+
+
+def lorentz(p: array, x: array) -> float:
+    return p[0] / ((x - p[1]) ** 2 + p[2])
+
+
+def error_func():
+    return None
+
+
+def lorentz_fit(x: array, y: array) -> Tuple[float, array]:
+    p3 = ((np.max(x) - np.min(x)) / 10) ** 2
+    p2 = (np.max(x) + np.min(x)) / 2
+    p1 = np.max(y) * p3
+
+    c = np.min(y)
+
+    p0 = np.array([p1, p2, p3, c], dtype=float)
+
+    solp, ier = leastsq(
+        func=error_func,
+        x0=p0,
+        args=(x, y),
+        maxfev=200000
+    )
+
+    return lorentz(solp, x), solp
+
+
+def get_snr(
+    data: array,            # 被测数据
+    data_lorentz: array,    # 经过洛伦兹拟合过的被测数据
+    solp: array             # 拟合后的参数
+) -> float:
+    _max = lorentz(solp, solp[1])
+    _variance = np.var(data - data_lorentz)
+    _snr = _max ** 2 / _variance
+    snr = 10 * np.log10(_snr)
+    return snr
 
 
 if __name__ == '__main__':
