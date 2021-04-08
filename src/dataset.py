@@ -4,7 +4,7 @@ from torch.tensor import Tensor
 import numpy as np
 from scipy.optimize import leastsq
 import math
-from typing import Tuple
+from typing import Tuple, Any
 import matplotlib.pyplot as plt
 from mpl_toolkits import mplot3d
 
@@ -46,6 +46,8 @@ def create_data(
     bfs = get_bfs(n=n)
     sw = get_sw(n=n)
 
+    snr_bgs = np.array([])
+    lrz_bgs = np.array([])
     for i in range(n):
         peak_gain = 1
         bgs[i] = create_bgs(
@@ -86,12 +88,6 @@ def get_sw(
     return np.random.uniform((fMax - fMin) * 0.1, (fMax - fMin) * 0.5, n)
 
 
-def get_snr(
-    n: int
-) -> array:
-    return np.random.uniform(5, 20, n)
-
-
 def awgn(
     data: array,
     snr: float
@@ -110,15 +106,22 @@ def normalization(
     return (bfs - fMin) / (fMax - fMin), sw / (fMax - fMin)
 
 
-def lorentz(p: array, x: array) -> float:
+def lorentz(
+    p: array,
+    x: array
+) -> float:
     return p[0] / ((x - p[1]) ** 2 + p[2])
 
 
-def error_func():
-    return None
+def multi_lorentz(p: array, x: array, z: Any) -> Any:
+    return z - lorentz(p, x)
 
 
-def lorentz_fit(x: array, y: array) -> Tuple[float, array]:
+def lorentz_fit(
+    x: array,
+    y: array
+) -> Tuple[float, array]:
+    # x频率，y相应能量
     p3 = ((np.max(x) - np.min(x)) / 10) ** 2
     p2 = (np.max(x) + np.min(x)) / 2
     p1 = np.max(y) * p3
@@ -128,7 +131,7 @@ def lorentz_fit(x: array, y: array) -> Tuple[float, array]:
     p0 = np.array([p1, p2, p3, c], dtype=float)
 
     solp, ier = leastsq(
-        func=error_func,
+        func=multi_lorentz,
         x0=p0,
         args=(x, y),
         maxfev=200000
