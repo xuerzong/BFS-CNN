@@ -86,6 +86,12 @@ def get_sw(
     return np.random.uniform((fMax - fMin) * 0.1, (fMax - fMin) * 0.5, n)
 
 
+def get_snr(
+    n: int
+) -> array:
+    return np.random.uniform(5, 20, n)
+
+
 def awgn(
     data: array,
     snr: float
