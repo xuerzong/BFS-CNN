@@ -10,8 +10,8 @@ from mpl_toolkits import mplot3d
 array = np.ndarray
 LEN = 151
 
-fMin = 10.6 * math.pow(10,3)
-fMax = 10.9 * math.pow(10,3)
+fMin = 10.6 # GHz
+fMax = 10.9 # GHz
 
 class BGSDynamicDataSet(Dataset):
     """
@@ -55,7 +55,7 @@ def create_data(
         )
 
         bgs[i] = awgn(data=bgs[i], snr=snr[i])
-        bfs[i] = bgs[i] / np.max(bgs[i])
+        bgs[i] = bgs[i] / np.max(bgs[i])
     bgs = bgs.T
     bfs, sw = normalization(bfs=bfs, sw=sw)
     return torch.tensor([bgs], dtype=torch.float), \
@@ -78,7 +78,7 @@ def create_bgs(
 def get_bfs(
     n: int
 ) -> array:
-    return np.linspace(fMin + (fMax - fMin)*0.05, fMin + (fMax - fMin)*0.95, n)
+    # return np.linspace(fMin + (fMax - fMin)*0.05, fMin + (fMax - fMin)*0.95, n)
     return np.random.uniform(fMin + (fMax - fMin)*0.05, fMin + (fMax - fMin)*0.95, n)
 
 
