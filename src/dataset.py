@@ -55,8 +55,9 @@ def create_data(
         )
 
         bgs[i] = awgn(data=bgs[i], snr=snr[i])
+        bfs[i] = bgs[i] / np.max(bgs[i])
     bgs = bgs.T
-    return bgs
+    bfs, sw = normalization(bfs=bfs, sw=sw)
     return torch.tensor([bgs], dtype=torch.float), \
            torch.tensor(bfs, dtype=torch.float), \
            torch.tensor(sw, dtype=torch.float)
