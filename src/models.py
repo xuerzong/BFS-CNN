@@ -81,6 +81,7 @@ class BfsCNN(nn.Module):
             ),
             nn.ZeroPad2d(padding=(1, 1, 2, 1)),
             nn.ReLU(),
+            nn.BatchNorm2d(64),
             nn.MaxPool2d(kernel_size=(2, 1), stride=(2, 1))
         )
         self.conv2 = nn.Sequential(
