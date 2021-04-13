@@ -79,13 +79,13 @@ def get_bfs(
     n: int
 ) -> array:
     # return np.linspace(fMin + (fMax - fMin)*0.05, fMin + (fMax - fMin)*0.95, n)
-    return np.random.uniform(fMin + (fMax - fMin)*0.05, fMin + (fMax - fMin)*0.95, n)
+    return fMin + (fMax - fMin) * np.random.uniform(0.05, 0.95, n)
 
 
 def get_sw(
     n: int
 ) -> array:
-    return np.random.uniform((fMax - fMin) * 0.1, (fMax - fMin) * 0.5, n)
+    return (fMax - fMin) * np.random.uniform(0.1, 0.5, n)
 
 
 def get_snr(
