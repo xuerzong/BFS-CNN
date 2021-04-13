@@ -1,2 +1,5 @@
 CNN-env
+.DS_Store
 .idea
+.vscode
+src/__pycache__
