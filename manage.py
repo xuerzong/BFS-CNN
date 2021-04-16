@@ -1,3 +1,3 @@
 from os import system
 
-system("python -m src.train")
+system("python -m test.dataset")
