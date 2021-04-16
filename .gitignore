@@ -2,4 +2,4 @@ CNN-env
 .DS_Store
 .idea
 .vscode
-src/__pycache__
+*/__pycache__
