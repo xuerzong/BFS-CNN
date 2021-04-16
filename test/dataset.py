@@ -33,7 +33,7 @@ class BGSTestDataset(Dataset):
         self.name = name
 
     def __getitem__(self, item):
-        bgs, bfs, sw = create_data(self.n)
+        bgs, bfs, sw = create_data(self.name, self.n)
         return bgs, bfs
 
     def __len__(self):
