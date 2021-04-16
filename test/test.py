@@ -1,77 +1,138 @@
+# TODO 洛伦兹拟合 通过使用洛伦兹拟合，判断BFS-CNN的结果是否实现
+
 import numpy as np
-from typing import List, Any
+import torch
+from torch.utils.data import DataLoader
+import os
+from typing import List, Any, Tuple
 from matplotlib import pyplot as plt
 
+from test.dataset import BGSTestDataset
 
 array = np.ndarray
 
 
-def create_data(data: float, peak_gain: float, line_width: float, bfs: float) -> float:
-    """
-    :param data: 参数x
-    :param peak_gain: 峰值
-    :param line_width: 半高全宽
-    :param bfs: BFS
-    :return: 参数y
-    """
-
-    _bfs = np.random.uniform(0.05, 0.95)
-    _sw = np.random.uniform(0.1, 0.5)
-    _snr = np.random.uniform(5, 20)
-
-    return peak_gain / (1 + np.square((data - bfs) / (line_width / 2)))
+def lorentz(
+    p: array,
+    x: array
+) -> float:
+    return p[0] / ((x - p[1]) ** 2 + p[2])
 
 
-def awgn(data: array, snr: float) -> array:
-    """
-    加入高斯白噪声 Additive White Gaussian Noise
-    :param data: 原始信号
-    :param snr: 信噪比
-    :return: 加入噪声后的信号
-    """
-    _signal = np.sum(data**2)/len(data)
-    _noise = _signal/10**(snr/10)
+def error_func(p: array, x: array, z: Any) -> Any:
+    return z - lorentz(p, x)
 
-    noise = np.random.randn(len(data)) * np.sqrt(_noise)
-    return data + noise
+# 洛伦兹拟合
+def lorentz_fit(x: array, y: array) -> Tuple[float, array]:
+    p3 = ((np.max(x) - np.min(x)) / 10) ** 2
+    p2 = (np.max(x) + np.min(x)) / 2
+    p1 = np.max(y) * p3
+
+    c = np.min(y)
+
+    p0 = np.array([p1, p2, p3, c], dtype=float)
+
+    solp, ier = leastsq(
+        func=error_func,
+        x0=p0,
+        args=(x, y),
+        maxfev=200000
+    )
+
+    return lorentz(solp, x), solp
 
 
-def normalization(data: array) -> array:
-    """
-    BFS 归一化处理
-    :param data: 原始数据
-    :return: 处理后的数据
-    """
-    _min = np.min(data)
-    _max = np.max(data)
+def get_snr(
+    data: array,            # 被测数据
+    data_lorentz: array,    # 经过洛伦兹拟合过的被测数据
+    solp: array             # 拟合后的参数
+) -> float:
+    _max = lorentz(solp, solp[1])
+    _variance = np.var(data - data_lorentz)
+    _snr = _max ** 2 / _variance
+    snr = 10 * np.log10(_snr)
+    return snr
 
-    print(_max, _min)
 
-    return (data - _min) / (_max - _min)
 
+def bfs_cnn(
+    dataset: DataLoader
+) -> array:
+
+    res = np.zeros(151, dtype=array)
+
+    print(os.path.exists('dataset.py'))
+    return
+
+    if os.path.exists('model.pkl'):
+        cnn_model = torch.load('model.pkl')
+    else:
+        print('There is not a file named "model.pkl"')
+        return None
+    device = 'cuda' if torch.cuda.is_available() else 'cpu'
+    
+    cnn_model.to(device)
+    cnn_model.eval()
+
+    for i, x in enumerate(dataset):
+        x, target = x
+        x, target = x.to(device), target.to(device)
+
+        output = cnn_model(x)
+        output = output.view(output.size(0), -1)
+        
+        res[i] = output.numpy()
+
+    return res
+
+def lcf(dataset: DataLoader):
+    pass
+
+
+def get_sd_rmse(data: array, dataH: array) -> Tuple[array, array]:
+    _rmse = np.array([])
+    _sd = np.array([])
+    for item in data:
+        _rmse = np.append(_rmse, RMSE(item, dataH))
+        _sd = np.append(_sd, SD(item))
+    
+    return _sd, _rmse
+
+
+def analyze_data():
+    bgss, bfs = BGSTestDataset()
+
+    rmse = np.zeros(2, dtype=array)
+    sd = np.zeros(2, dtype=array)
+
+    for bgs in bgss:
+        data_loader = DataLoader(dataset=bgs)
+
+        cnn_res = bfs_cnn(data_loader)
+        lcf_res = lcf(data_loader)
+
+        cnn_rmse, cnn_sd = get_sd_rmse(cnn_res, bfs)
+        lcf_rmse, lcf_sd = get_sd_rmse(lcf_res, bfs)
+
+
+        rmse[0] = np.append(rmse[0], cnn_rmse.mean())
+        rmse[1] = np.append(rmse[1], lcf_rmse.mean())
+
+        sd[0] = np.append(sd[0], cnn_sd.mean())
+        sd[1] = np.append(sd[1], lcf_sd.mean())
+
+    return rmse, sd
+
+
+
+def RMSE(data, dataH):
+    return np.sqrt(np.square(data - dataH).mean())
+
+
+def SD(data):
+    return np.std(data, ddof=0)
 
 if __name__ == '__main__':
-    a = [1, -1, 2, -7, 8]
-    x = np.array(a)
+    rmse, sd = analyze_data()
 
-    print(x)
-    # print(a)
-    # print(add_noise(b, 20))
-    # xn = prepare_data(b)
-
-    # print(np.sum(abs(np.array(a))))
-    LEN = 151
-    _x = np.arange(0, LEN)
-    print(_x)
-    y = np.array([])
-    for i in _x:
-        # bfs           5%～95%
-        # line_width    10%～50%
-        # peak_gain     5dB～20dB 信号最大增益和噪声功率之间的比值
-        y = np.append(y, create_data(data=i, peak_gain=10, line_width=0.13*LEN, bfs=0.5*LEN))
-    yn = awgn(y, 20)
-    yn = normalization(yn)
-    print(yn)
-    plt.plot(_x/150, yn, label="sigmoid") # _x/150: 归一化
-    plt.ylim(-0.1, 1.1)
-    plt.show()
+    print(rmse, sd)
