@@ -1,7 +1,9 @@
 import numpy as np
 from typing import Any
 from torch.utils.data import Dataset
-# form src.dataset import create_bgs, awgn, normalization
+from src.dataset import awgn, normalization, create_bgs
+
+import matplotlib.pyplot as plt
 
 
 
@@ -16,7 +18,7 @@ array = np.ndarray
 
 """
 
-class BGSDynamicDataSet(Dataset):
+class BGSTestDataset(Dataset):
     """
     运行时模拟生成数据, 每次都不一样
     """
@@ -31,9 +33,6 @@ class BGSDynamicDataSet(Dataset):
         self.name = name
 
     def __getitem__(self, item):
-        """
-        :return: (Tensor[1, 151, N], Tensor[N])
-        """
         bgs, bfs, sw = create_data(self.n)
         return bgs, bfs
 
@@ -41,36 +40,36 @@ class BGSDynamicDataSet(Dataset):
         return self.size
 
 
-def create_data(name: str):
-    
-    bgs = np.zeros((n, LEN), dtype=float)
+def create_data(name: str, n: int):
     peak_gain = 1
     bfs, sw, snr = get_param(name=name)
+    bgs = np.zeros((len(bfs)), dtype=array)
     # bfs, sw, snr have the same length
-    for i in range(len(bfs));
-        bgs[i] = create_bgs(
-            peak_gain=_peak_gain,
-            sw=sw[i],
-            bfs=bfs[i]
-        )
+    for x in range(len(bfs)):
+        unit_bgs = np.zeros((n, LEN), dtype=array)
+        for y in range(n):
+            unit_bgs[y] = create_bgs(
+                peak_gain=peak_gain,
+                sw=sw[x],
+                bfs=bfs[x]
+            )
 
-        bgs[i] = awgn(data=bgs[i], snr=_snr)
-        bgs[i] = bgs[i] / np.max(bgs[i])
-    
-    bgs = bgs.T
+            unit_bgs[y] = awgn(data=unit_bgs[y], snr=snr[x])
+            unit_bgs[y] = unit_bgs[y] / np.max(unit_bgs[y])
+        
+        bgs[x] = unit_bgs.T
+        
     bfs, sw = normalization(bfs=bfs, sw=sw)
-    return torch.tensor([bgs], dtype=torch.float), \
-           torch.tensor(bfs, dtype=torch.float), \
-           torch.tensor(sw, dtype=torch.float)
+    return bgs, bfs, sw
 
 
 def get_param(name: str):
     if name == 'bfs':
-        return get_bfs(), get_array(0.25, 17), get_array(11, 17)
+        return get_bfs(), (fMax - fMin) * get_array(0.25, 17), get_array(11, 17)
     elif name == 'sw':
-        return get_array(0.25, 9), get_sw(), get_array(11, 9)
+        return fMin + (fMax - fMin) * get_array(0.25, 9), get_sw(), get_array(11, 9)
     elif name == 'snr':
-        return get_array(0.3, 8), get_array(0.25, 8), get_snr()
+        return fMin + (fMax - fMin) * get_array(0.3, 8), (fMax - fMin) * get_array(0.25, 8), get_snr()
     else:
         return None
 
@@ -78,7 +77,7 @@ def get_bfs():
     return fMin + (fMax - fMin) * np.array([(x * 5 + 10) / 100 for x in range(17)])
 
 def get_sw():
-    return np.array([(x * 5 + 10) / 100 for x in range(9)])
+    return (fMax - fMin) * np.array([(x * 5 + 10) / 100 for x in range(9)])
 
 def get_snr():
     return np.array([x * 2 + 5 for x in range(8)])
