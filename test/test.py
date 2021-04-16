@@ -2,6 +2,7 @@
 
 import numpy as np
 import torch
+from torch.tensor import Tensor
 from torch.utils.data import DataLoader
 import os
 from typing import List, Any, Tuple
@@ -61,14 +62,11 @@ def bfs_cnn(
 
     res = np.zeros(151, dtype=array)
 
-    print(os.path.exists('dataset.py'))
-    return
-
     if os.path.exists('model.pkl'):
         cnn_model = torch.load('model.pkl')
     else:
         print('There is not a file named "model.pkl"')
-        return None
+        return
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
     
     cnn_model.to(device)
@@ -106,7 +104,7 @@ def analyze_data():
     sd = np.zeros(2, dtype=array)
 
     for bgs in bgss:
-        data_loader = DataLoader(dataset=bgs)
+        data_loader = DataLoader(dataset=torch.tensor([bgs]))
 
         cnn_res = bfs_cnn(data_loader)
         lcf_res = lcf(data_loader)
@@ -133,6 +131,4 @@ def SD(data):
     return np.std(data, ddof=0)
 
 if __name__ == '__main__':
-    rmse, sd = analyze_data()
-
-    print(rmse, sd)
+    analyze_data()
