@@ -41,7 +41,7 @@ def create_data(
     n: int
 ) -> Tuple[Tensor, Tensor, Tensor]:
 
-    bgs = np.zeros((n, LEN), dtype=array)
+    bgs = np.zeros((n, LEN), dtype=np.float64)
     bfs = get_bfs(n=n)
     sw = get_sw(n=n)
     snr = get_snr(n=n)
@@ -57,6 +57,7 @@ def create_data(
         bgs[i] = awgn(data=bgs[i], snr=snr[i])
         bgs[i] = bgs[i] / np.max(bgs[i])
     bgs = bgs.T
+    return bgs
     bfs, sw = normalization(bfs=bfs, sw=sw)
     return torch.tensor([bgs], dtype=torch.float), \
            torch.tensor(bfs, dtype=torch.float), \
