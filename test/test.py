@@ -7,8 +7,9 @@ from torch.utils.data import DataLoader
 import os
 from typing import List, Any, Tuple
 from matplotlib import pyplot as plt
+from scipy.optimize import leastsq
 
-from test.dataset import BGSTestDataset
+from test.dataset import BGSTestDataset, create_data
 
 array = np.ndarray
 
@@ -31,7 +32,7 @@ def lorentz_fit(x: array, y: array) -> Tuple[float, array]:
 
     c = np.min(y)
 
-    p0 = np.array([p1, p2, p3, c], dtype=float)
+    p0 = np.array([p1, p2, p3, c], dtype=np.float64)
 
     solp, ier = leastsq(
         func=error_func,
