@@ -14,10 +14,6 @@ LEN = 151
 
 array = np.ndarray
 
-"""
-
-"""
-
 class BGSTestDataset(Dataset):
     """
     运行时模拟生成数据, 每次都不一样
@@ -41,23 +37,30 @@ class BGSTestDataset(Dataset):
 
 
 def create_data(name: str, n: int):
+
     peak_gain = 1
     bfs, sw, snr = get_param(name=name)
-    bgs = np.zeros((len(bfs)), dtype=array)
+
+    bgs = np.zeros((len(bfs) * n, LEN), dtype=np.float64)
+
     # bfs, sw, snr have the same length
     for x in range(len(bfs)):
-        unit_bgs = np.zeros((n, LEN), dtype=array)
+
+        _range = np.arange(x * n, (x + 1) * n)
+        
         for y in range(n):
-            unit_bgs[y] = create_bgs(
+            tmp = create_bgs(
                 peak_gain=peak_gain,
                 sw=sw[x],
                 bfs=bfs[x]
             )
 
-            unit_bgs[y] = awgn(data=unit_bgs[y], snr=snr[x])
-            unit_bgs[y] = unit_bgs[y] / np.max(unit_bgs[y])
-        
-        bgs[x] = unit_bgs.T
+            tmp = awgn(data=tmp, snr=snr[x])
+            tmp = tmp / np.max(tmp)
+            bgs[_range[y]] = tmp 
+
+    bgs = bgs.T
+    return bgs
         
     bfs, sw = normalization(bfs=bfs, sw=sw)
     return bgs, bfs, sw
