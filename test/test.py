@@ -3,15 +3,31 @@
 import numpy as np
 import torch
 from torch.tensor import Tensor
-from torch.utils.data import DataLoader
+from torch.utils.data import DataLoader, Dataset
 import os
 from typing import List, Any, Tuple
 from matplotlib import pyplot as plt
 from scipy.optimize import leastsq
 
-from test.dataset import BGSTestDataset, create_data
+from test.dataset import create_data
+
+fMin = 10.6 # GHz
+fMax = 10.9 # GHz
+LEN = 151
 
 array = np.ndarray
+
+
+class BGSTestDataset(Dataset):
+    def __init__(self, bgs: array, size: int):
+        self.bgs = bgs
+        self.size = size
+
+    def __getitem__(self, item):
+        return torch.tensor([self.bgs], dtype=torch.float)
+
+    def __len__(self):
+        return self.size
 
 
 def lorentz(
@@ -58,25 +74,31 @@ def get_snr(
 
 
 def bfs_cnn(
-    dataset: DataLoader
+    bgs: array
 ) -> array:
 
     res = np.zeros(151, dtype=array)
 
+
+    map_location = None if torch.cuda.is_available() else "cpu"
+
     if os.path.exists('model.pkl'):
-        cnn_model = torch.load('model.pkl')
+        cnn_model = torch.load('model.pkl', map_location=map_location)
     else:
         print('There is not a file named "model.pkl"')
         return
-    device = 'cuda' if torch.cuda.is_available() else 'cpu'
     
+    
+    dataset = BGSTestDataset(bgs=bgs, size=10)
+    test_loader = DataLoader(dataset, batch_size=4, shuffle=False, num_workers=2)
+
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+
     cnn_model.to(device)
     cnn_model.eval()
 
     for i, x in enumerate(dataset):
-        x, target = x
-        x, target = x.to(device), target.to(device)
-
+        x.to(device)
         output = cnn_model(x)
         output = output.view(output.size(0), -1)
         
@@ -84,21 +106,43 @@ def bfs_cnn(
 
     return res
 
-def lcf(dataset: DataLoader):
-    pass
+def lcf(
+    data: array,
+    n: int
+) -> array:
+    """
+    :param data: BGSs
+    :param n: The number of BGS traces
+    :return 2D lorentz-fit result
+    """
+    res = np.array([])
+    x = np.arange(LEN)
+
+    for item in data:
+        tmp, solp = lorentz_fit(x, item)
+        for i in range(len(tmp)):
+            if tmp[i] == np.max(tmp):
+                tmp_res =  i / LEN
+                res = np.append(res, tmp_res)
+                break
+
+    return np.array([res[i:i+n] for i in range(0, len(res), n)])
 
 
 def get_sd_rmse(data: array, dataH: array) -> Tuple[array, array]:
     _rmse = np.array([])
     _sd = np.array([])
-    for item in data:
-        _rmse = np.append(_rmse, RMSE(item, dataH))
-        _sd = np.append(_sd, SD(item))
+    for i in range(len(data)):
+        _rmse = np.append(_rmse, RMSE(data[i], dataH[i]))
+        _sd = np.append(_sd, SD(data[i]))
     
     return _sd, _rmse
 
 
 def analyze_data():
+    """
+    废弃
+    """
     bgss, bfs = BGSTestDataset()
 
     rmse = np.zeros(2, dtype=array)
@@ -132,4 +176,18 @@ def SD(data):
     return np.std(data, ddof=0)
 
 if __name__ == '__main__':
-    analyze_data()
+    # n = 224
+    # y, bfs, lj = create_data('snr', n)
+    # # print(y)
+    # res = lcf(y.T, n)
+    # _bfs = np.array([[bfs[i]] * n for i in range(len(bfs))])
+    # a, b = get_sd_rmse(res, _bfs)
+    # x = np.arange(len(a))
+    # plt.plot(x, a)
+    # plt.plot(x, b)
+    # plt.show()
+    bgss, bfs, lj = create_data('bfs', 4)
+
+    res = bfs_cnn(bgs=bgss)
+    
+    # print(res)
