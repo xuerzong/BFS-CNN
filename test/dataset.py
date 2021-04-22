@@ -14,27 +14,6 @@ LEN = 151
 
 array = np.ndarray
 
-class BGSTestDataset(Dataset):
-    """
-    运行时模拟生成数据, 每次都不一样
-    """
-
-    def __init__(self, size=100, n=10, name="bfs"):
-        """
-        :param size: 模拟的数据总量
-        :param N : 一个数据由N个BGS组成
-        """
-        self.n = n
-        self.size = size
-        self.name = name
-
-    def __getitem__(self, item):
-        bgs, bfs, sw = create_data(self.name, self.n)
-        return bgs, bfs
-
-    def __len__(self):
-        return self.size
-
 
 def create_data(name: str, n: int):
 
@@ -60,8 +39,6 @@ def create_data(name: str, n: int):
             bgs[_range[y]] = tmp 
 
     bgs = bgs.T
-    return bgs
-        
     bfs, sw = normalization(bfs=bfs, sw=sw)
     return bgs, bfs, sw
 
