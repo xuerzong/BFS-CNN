@@ -15,6 +15,8 @@ fMin = 10.6 # GHz
 fMax = 10.9 # GHz
 LEN = 151
 
+SIZE = 1
+
 array = np.ndarray
 
 
@@ -74,11 +76,11 @@ def get_snr(
 
 
 def bfs_cnn(
-    bgs: array
+    bgs: array,
+    n: int
 ) -> array:
 
-    res = np.zeros(151, dtype=array)
-
+    res = np.array([])
 
     map_location = None if torch.cuda.is_available() else "cpu"
 
@@ -89,7 +91,7 @@ def bfs_cnn(
         return
     
     
-    dataset = BGSTestDataset(bgs=bgs, size=10)
+    dataset = BGSTestDataset(bgs=bgs, size=SIZE)
     test_loader = DataLoader(dataset, batch_size=4, shuffle=False, num_workers=2)
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -97,14 +99,14 @@ def bfs_cnn(
     cnn_model.to(device)
     cnn_model.eval()
 
-    for i, x in enumerate(dataset):
+    for i, x in enumerate(test_loader):
         x.to(device)
         output = cnn_model(x)
         output = output.view(output.size(0), -1)
-        
-        res[i] = output.numpy()
+        res = np.append(res, output.detach().numpy())
 
-    return res
+    # _len = int(len(res) / SIZE)
+    return np.array([res[i:i+n] for i in range(0, len(res), n)])
 
 def lcf(
     data: array,
@@ -176,18 +178,32 @@ def SD(data):
     return np.std(data, ddof=0)
 
 if __name__ == '__main__':
-    # n = 224
-    # y, bfs, lj = create_data('snr', n)
-    # # print(y)
-    # res = lcf(y.T, n)
-    # _bfs = np.array([[bfs[i]] * n for i in range(len(bfs))])
-    # a, b = get_sd_rmse(res, _bfs)
-    # x = np.arange(len(a))
-    # plt.plot(x, a)
-    # plt.plot(x, b)
-    # plt.show()
-    bgss, bfs, lj = create_data('bfs', 4)
 
-    res = bfs_cnn(bgs=bgss)
-    
-    # print(res)
+    test_arr = ['sw', 'bfs', 'snr']
+
+    n = 128
+
+    for item in test_arr:
+       bgss, bfs, lj = create_data(item, n)
+       
+       res = bfs_cnn(bgs=bgss, n=n)
+       res1 = lcf(bgss.T, n)
+       
+       _bfs = np.array([[bfs[i]] * n for i in range(len(bfs))])
+       a1, b1 = get_sd_rmse(res, _bfs)
+       a2, b2 = get_sd_rmse(res1, _bfs)
+       
+       x = np.arange(len(a1))
+
+       plt.figure()
+       plt.plot(x, a1, label="cnn")
+       plt.plot(x, a2, label="lcf")
+       plt.legend()
+       plt.savefig(f'sd_{item}')
+       
+       plt.figure()
+       plt.plot(x, b1, label="cnn")
+       plt.plot(x, b2, label="lcf")
+       plt.legend()
+       plt.savefig(f'rmse_{item}')
+
