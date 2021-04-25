@@ -76,25 +76,21 @@ def get_snr(
 
 
 def bfs_cnn(
-    bgs: array,
-    n: int
+    bgs: array
 ) -> array:
 
     res = np.array([])
 
-    map_location = None if torch.cuda.is_available() else "cpu"
-
     if os.path.exists('model.pkl'):
-        cnn_model = torch.load('model.pkl', map_location=map_location)
+        cnn_model = torch.load('model.pkl', map_location="cpu")
     else:
         print('There is not a file named "model.pkl"')
         return
     
-    
-    dataset = BGSTestDataset(bgs=bgs, size=SIZE)
+    dataset = BGSTestDataset(bgs=bgs, size=1)
     test_loader = DataLoader(dataset, batch_size=4, shuffle=False, num_workers=2)
 
-    device = "cuda" if torch.cuda.is_available() else "cpu"
+    device = "cpu"
 
     cnn_model.to(device)
     cnn_model.eval()
@@ -105,30 +101,22 @@ def bfs_cnn(
         output = output.view(output.size(0), -1)
         res = np.append(res, output.detach().numpy())
 
-    # _len = int(len(res) / SIZE)
-    return np.array([res[i:i+n] for i in range(0, len(res), n)])
+    return res
 
 def lcf(
-    data: array,
-    n: int
+    data: array
 ) -> array:
-    """
-    :param data: BGSs
-    :param n: The number of BGS traces
-    :return 2D lorentz-fit result
-    """
-    res = np.array([])
+    res = 0
     x = np.arange(LEN)
 
-    for item in data:
-        tmp, solp = lorentz_fit(x, item)
-        for i in range(len(tmp)):
-            if tmp[i] == np.max(tmp):
-                tmp_res =  i / LEN
-                res = np.append(res, tmp_res)
-                break
+    tmp, solp = lorentz_fit(x, data)
 
-    return np.array([res[i:i+n] for i in range(0, len(res), n)])
+    for i in range(len(tmp)):
+        if tmp[i] == np.max(tmp):
+            res =  i / LEN
+            break
+
+    return res
 
 
 def get_sd_rmse(data: array, dataH: array) -> Tuple[array, array]:
@@ -139,35 +127,6 @@ def get_sd_rmse(data: array, dataH: array) -> Tuple[array, array]:
         _sd = np.append(_sd, SD(data[i]))
     
     return _sd, _rmse
-
-
-def analyze_data():
-    """
-    废弃
-    """
-    bgss, bfs = BGSTestDataset()
-
-    rmse = np.zeros(2, dtype=array)
-    sd = np.zeros(2, dtype=array)
-
-    for bgs in bgss:
-        data_loader = DataLoader(dataset=torch.tensor([bgs]))
-
-        cnn_res = bfs_cnn(data_loader)
-        lcf_res = lcf(data_loader)
-
-        cnn_rmse, cnn_sd = get_sd_rmse(cnn_res, bfs)
-        lcf_rmse, lcf_sd = get_sd_rmse(lcf_res, bfs)
-
-
-        rmse[0] = np.append(rmse[0], cnn_rmse.mean())
-        rmse[1] = np.append(rmse[1], lcf_rmse.mean())
-
-        sd[0] = np.append(sd[0], cnn_sd.mean())
-        sd[1] = np.append(sd[1], lcf_sd.mean())
-
-    return rmse, sd
-
 
 
 def RMSE(data, dataH):
@@ -181,29 +140,37 @@ if __name__ == '__main__':
 
     test_arr = ['sw', 'bfs', 'snr']
 
-    n = 128
+    n = 10
 
     for item in test_arr:
-       bgss, bfs, lj = create_data(item, n)
-       
-       res = bfs_cnn(bgs=bgss, n=n)
-       res1 = lcf(bgss.T, n)
-       
-       _bfs = np.array([[bfs[i]] * n for i in range(len(bfs))])
-       a1, b1 = get_sd_rmse(res, _bfs)
-       a2, b2 = get_sd_rmse(res1, _bfs)
-       
-       x = np.arange(len(a1))
+        bgss, bfs, lj = create_data(item, n)
 
-       plt.figure()
-       plt.plot(x, a1, label="cnn")
-       plt.plot(x, a2, label="lcf")
-       plt.legend()
-       plt.savefig(f'sd_{item}')
-       
-       plt.figure()
-       plt.plot(x, b1, label="cnn")
-       plt.plot(x, b2, label="lcf")
-       plt.legend()
-       plt.savefig(f'rmse_{item}')
+        bgss_cnn = np.array([bgss[i:i+n] for i in range(0, len(bgss), n)], dtype=array)
+        cnn_res = np.zeros((len(bgss_cnn)), dtype=array)
+        lcf_res = np.zeros((len(bgss_cnn), n), dtype=np.float64)
+    
+        for i in range(len(bgss_cnn)):
+            for j in range(len(bgss_cnn[i])):
+                lcf_res[i][j] = lcf(bgss_cnn[i][j])
+            cnn_res[i] = bfs_cnn(bgs=bgss_cnn[i].T)
+    
+        _bfs = np.array([[bfs[i]] * n for i in range(len(bfs))])
+
+        a1, b1 = get_sd_rmse(cnn_res, _bfs)
+        a2, b2 = get_sd_rmse(lcf_res, _bfs)
+
+        x = np.arange(len(a1))
+
+
+        plt.figure()
+        plt.plot(x, a1, label="cnn")
+        plt.plot(x, a2, label="lcf")
+        plt.legend()
+        plt.savefig(f'sd_{item}')
+        
+        plt.figure()
+        plt.plot(x, b1, label="cnn")
+        plt.plot(x, b2, label="lcf")
+        plt.legend()
+        plt.savefig(f'rmse_{item}')
 
