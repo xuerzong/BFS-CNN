@@ -38,7 +38,6 @@ def create_data(name: str, n: int):
             tmp = tmp / np.max(tmp)
             bgs[_range[y]] = tmp 
 
-    bgs = bgs.T
     bfs, sw = normalization(bfs=bfs, sw=sw)
     return bgs, bfs, sw
 
