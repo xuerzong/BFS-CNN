@@ -35,7 +35,7 @@ class BGSTestDataset(Dataset):
 def lorentz(
     p: array,
     x: array
-) -> float:
+) -> array:
     return p[0] / ((x - p[1]) ** 2 + p[2])
 
 
@@ -43,7 +43,7 @@ def error_func(p: array, x: array, z: Any) -> Any:
     return z - lorentz(p, x)
 
 # 洛伦兹拟合
-def lorentz_fit(x: array, y: array) -> Tuple[float, array]:
+def lorentz_fit(x: array, y: array) -> Tuple[array, array]:
     p3 = ((np.max(x) - np.min(x)) / 10) ** 2
     p2 = (np.max(x) + np.min(x)) / 2
     p1 = np.max(y) * p3
@@ -88,7 +88,7 @@ def bfs_cnn(
         return
     
     dataset = BGSTestDataset(bgs=bgs, size=1)
-    test_loader = DataLoader(dataset, batch_size=4, shuffle=False, num_workers=2)
+    test_loader = DataLoader(dataset, batch_size=1, shuffle=False, num_workers=2)
 
     device = "cpu"
 
@@ -140,18 +140,20 @@ if __name__ == '__main__':
 
     test_arr = ['sw', 'bfs', 'snr']
 
-    n = 10
+    n = 224
 
     for item in test_arr:
         bgss, bfs, lj = create_data(item, n)
 
-        bgss_cnn = np.array([bgss[i:i+n] for i in range(0, len(bgss), n)], dtype=array)
-        cnn_res = np.zeros((len(bgss_cnn)), dtype=array)
+        bgss_cnn = np.array([bgss[i:i+n] for i in range(0, len(bgss), n)], dtype=np.float64)
+        cnn_res = np.zeros((len(bgss_cnn), n), dtype=np.float64)
         lcf_res = np.zeros((len(bgss_cnn), n), dtype=np.float64)
     
         for i in range(len(bgss_cnn)):
+
             for j in range(len(bgss_cnn[i])):
                 lcf_res[i][j] = lcf(bgss_cnn[i][j])
+
             cnn_res[i] = bfs_cnn(bgs=bgss_cnn[i].T)
     
         _bfs = np.array([[bfs[i]] * n for i in range(len(bfs))])
@@ -161,16 +163,32 @@ if __name__ == '__main__':
 
         x = np.arange(len(a1))
 
+        x_label = ''
+
+        if item == 'bfs':
+            x = [i * 5 + 10 for i in x]
+            x_label = 'Normalized BFS(%)'
+        elif item == 'sw':
+            x = [i * 5 + 10 for i in x]
+            x_label = 'Normalized SW(%)'
+        elif item == 'snr':
+            x = [i * 2 + 5 for i in x]
+            x_label = 'SNR(db)'
+
 
         plt.figure()
-        plt.plot(x, a1, label="cnn")
-        plt.plot(x, a2, label="lcf")
+        plt.xlabel(x_label)
+        plt.ylabel('SD(%)')
+        plt.plot(x, a1*100, label="cnn", marker='o')
+        plt.plot(x, a2*100, label="lcf", marker='o')
         plt.legend()
         plt.savefig(f'sd_{item}')
         
         plt.figure()
-        plt.plot(x, b1, label="cnn")
-        plt.plot(x, b2, label="lcf")
+        plt.xlabel(x_label)
+        plt.ylabel('RMSE(%)')
+        plt.plot(x, b1*100, label="cnn", marker='o')
+        plt.plot(x, b2*100, label="lcf", marker='o')
         plt.legend()
         plt.savefig(f'rmse_{item}')
 
