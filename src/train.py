@@ -74,8 +74,7 @@ if __name__ == '__main__':
     batch_size = 4
     learn_rate = 0.001
     epoch = 22
-    train_csv_name = f'x_train_{batch_size}_{learn_rate}'
-    test_csv_name = f'x_test_{batch_size}_{learn_rate}'
+
 
     optimizer = Adam(model.parameters(), lr=learn_rate)
     scheduler = StepLR(optimizer, step_size=1, gamma=0.9)
@@ -96,9 +95,6 @@ if __name__ == '__main__':
         torch.cuda.empty_cache()
 
         scheduler.step()
-
-        write_csv(filename=train_csv_name, flag=False, data=train_loss_list_tmp)
-        write_csv(filename=test_csv_name, flag=False, data=test_loss_list_tmp)
 
         torch.save(model, 'model_x.pkl')
 
