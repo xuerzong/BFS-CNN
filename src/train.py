@@ -65,15 +65,16 @@ def test(loader, model, device, loss_fn) -> array:
 
 
 if __name__ == '__main__':
-    model: nn.Module
-    if os.path.exists('model.pkl'):
-        model = torch.load('model.pkl')
-    else:
-        model = BfsCNN()
-    N = 128
-    batch_size = 4
+    # model: nn.Module
+    # if os.path.exists('model.pkl'):
+    #     model = torch.load('model.pkl')
+    # else:
+    #     model = BfsCNN()
+    model = BfsCNN()
+    N = 224
+    batch_size = 16
     learn_rate = 0.001
-    epoch = 22
+    epoch = 30
 
 
     optimizer = Adam(model.parameters(), lr=learn_rate)
@@ -96,5 +97,5 @@ if __name__ == '__main__':
 
         scheduler.step()
 
-        torch.save(model, 'model_x.pkl')
+        torch.save(model, 'model.pkl')
 

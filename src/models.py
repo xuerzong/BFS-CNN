@@ -2,35 +2,47 @@ import torch
 import torch.nn as nn
 
 class ResBlock(nn.Module):
-    def __init__(self, in_channels=512):
+    def __init__(self, in_channels=512, out_channels=None):
         super(ResBlock, self).__init__()
+        self.out_channels = out_channels
         self.conv = nn.Sequential(
             nn.Conv2d(
                 in_channels=in_channels,
                 out_channels=256,
-                kernel_size=(1, 1)
+                kernel_size=(1, 1),
+                bias=False
             ),
-            nn.ReLU(),
             nn.BatchNorm2d(256),
+            nn.ReLU(),
+            
             nn.Conv2d(
                 in_channels=256,
                 out_channels=256,
                 kernel_size=(3, 3),
                 padding=(1, 1)
             ),
-            nn.ReLU(),
             nn.BatchNorm2d(256),
+            nn.ReLU(),
+            
             nn.Conv2d(
                 in_channels=256,
                 out_channels=512,
                 kernel_size=(1, 1)
             ),
+            nn.BatchNorm2d(512),
             nn.ReLU(),
+            
+        )
+        self.short_cut = nn.Sequential(
+            nn.Conv2d(in_channels, 512, kernel_size=1, stride=1, bias=False),
             nn.BatchNorm2d(512)
         )
+        
 
     def forward(self, x):
-        return self.conv(x)
+        out = self.conv(x)
+        x = self.short_cut(x)
+        return nn.ReLU()(x + out)
 
 
 class BfsCNN(nn.Module):
@@ -44,8 +56,9 @@ class BfsCNN(nn.Module):
                 stride=(2, 1),
             ),
             nn.ZeroPad2d(padding=(1, 1, 2, 1)),
-            nn.ReLU(),
             nn.BatchNorm2d(64),
+            nn.ReLU(),
+            
             nn.MaxPool2d(kernel_size=(2, 1), stride=(2, 1))
         )
         self.conv2 = nn.Sequential(
@@ -70,7 +83,7 @@ class BfsCNN(nn.Module):
 
 
 if __name__ == '__main__':
-    x = torch.randn([10, 1, 151, 77])
+    x = torch.randn([10, 1, 151, 120])
     print(x.shape)
     model = BfsCNN()
     output = model(x)
