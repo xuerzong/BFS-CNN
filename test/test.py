@@ -26,7 +26,7 @@ class BGSTestDataset(Dataset):
         self.size = size
 
     def __getitem__(self, item):
-        return torch.tensor([self.bgs], dtype=torch.float64)
+        return torch.tensor([self.bgs], dtype=torch.float)
 
     def __len__(self):
         return self.size
@@ -82,7 +82,7 @@ def bfs_cnn(
     res = np.array([])
 
     if os.path.exists('model.pkl'):
-        cnn_model = torch.load('model.pkl')
+        cnn_model = torch.load('model.pkl', map_location="cpu")
     else:
         print('There is not a file named "model.pkl"')
         return
@@ -90,7 +90,7 @@ def bfs_cnn(
     dataset = BGSTestDataset(bgs=bgs, size=1)
     test_loader = DataLoader(dataset, batch_size=1, shuffle=False, num_workers=2)
 
-    device = "cuda"
+    device = "cpu"
 
     cnn_model.to(device)
     cnn_model.eval()

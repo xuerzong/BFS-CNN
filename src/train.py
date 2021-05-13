@@ -73,10 +73,10 @@ if __name__ == '__main__':
     else:
         model = BfsCNN()
     model = BfsCNN()
-    N = 128
-    batch_size = 16
+    N = 224
+    batch_size = 8
     learn_rate = 0.001
-    epoch = 100
+    epoch = 44
 
     mean_loss = None
 
