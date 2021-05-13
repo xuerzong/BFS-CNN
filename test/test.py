@@ -8,7 +8,7 @@ import os
 from typing import List, Any, Tuple
 from matplotlib import pyplot as plt
 from scipy.optimize import leastsq
-
+from torch import nn
 from test.dataset import create_data
 
 fMin = 10.6 # GHz
@@ -78,7 +78,7 @@ def get_snr(
 def bfs_cnn(
     bgs: array
 ) -> array:
-
+    cnn_model: nn.Module
     res = np.array([])
 
     if os.path.exists('model.pkl'):
