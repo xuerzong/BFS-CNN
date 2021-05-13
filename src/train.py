@@ -76,7 +76,7 @@ if __name__ == '__main__':
     N = 224
     batch_size = 8
     learn_rate = 0.001
-    epoch = 44
+    epoch = 22
 
     mean_loss = None
 
@@ -104,5 +104,5 @@ if __name__ == '__main__':
 
         # if mean_loss is None or mean_loss > cur_loss:
         #    mean_loss = cur_loss
-        torch.save(model, 'model.pkl')
-
+       # torch.save(model, 'model.pkl')
+    torch.save(model, "model.pkl")
