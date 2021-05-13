@@ -76,7 +76,7 @@ if __name__ == '__main__':
     N = 128
     batch_size = 16
     learn_rate = 0.001
-    epoch = 1000
+    epoch = 100
 
     mean_loss = None
 
@@ -102,7 +102,7 @@ if __name__ == '__main__':
 
         scheduler.step()
 
-        if mean_loss is None or mean_loss > cur_loss:
-            mean_loss = cur_loss
-            torch.save(model, 'model.pkl')
+        # if mean_loss is None or mean_loss > cur_loss:
+        #    mean_loss = cur_loss
+        torch.save(model, 'model.pkl')
 

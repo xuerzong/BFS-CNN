@@ -26,7 +26,7 @@ class BGSTestDataset(Dataset):
         self.size = size
 
     def __getitem__(self, item):
-        return torch.tensor([self.bgs], dtype=torch.float)
+        return torch.tensor([self.bgs], dtype=torch.float64)
 
     def __len__(self):
         return self.size
