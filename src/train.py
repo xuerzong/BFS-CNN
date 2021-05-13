@@ -32,32 +32,18 @@ def train(loader, model, device, loss_fn, op, mean_loss) -> float:
 
         train_loss += loss
 
-        if mean_loss == 0:
-            print(1)
-            op.zero_grad()
-            loss.backward()
-            op.step()
-            train_loss += loss
-        elif mean_loss >= float(loss):
-            print(2)
-            op.zero_grad()
-            loss.backward()
-            op.step()
-            train_loss += loss
-        else:
-            print(3)
-            train_loss += mean_loss
-        
-        print(float(loss))
+        op.zero_grad()
+        loss.backward()
+        op.step()
 
         if i % 10 == 0 or i == len(loader) - 1:
-            print("Training {:5d} / {:5d}, loss: {:10.5f}"
+            print("Training {:5d} / {:5d}, loss: {:10.8f}"
                   .format(i + 1, len(loader), train_loss / (i + 1)))
 
-    return train_loss / (i + 1)
+    return float(train_loss) / len(loader)
 
 
-def test(loader, model, device, loss_fn) -> array:
+def test(loader, model, device, loss_fn) -> float:
     model.eval()
     test_loss = 0.0
 
@@ -74,10 +60,10 @@ def test(loader, model, device, loss_fn) -> array:
             loss_arr = np.append(loss_arr, float(loss))
 
             if i % 10 == 0 or i == len(loader) - 1:
-                print("Testing {:5d} / {:5d}, loss: {:10.5f}"
+                print("Testing {:5d} / {:5d}, loss: {:10.8f}"
                     .format(i + 1, len(loader), test_loss / (i + 1)))
 
-    return loss_arr
+    return float(test_loss) / len(loader)
 
 
 if __name__ == '__main__':
@@ -87,36 +73,36 @@ if __name__ == '__main__':
     else:
         model = BfsCNN()
     model = BfsCNN()
-    N = 224
-    batch_size = 8
+    N = 128
+    batch_size = 16
     learn_rate = 0.001
-    epoch = 30
+    epoch = 1000
 
-    mean_loss = 0
+    mean_loss = None
 
 
     optimizer = Adam(model.parameters(), lr=learn_rate)
-    scheduler = StepLR(optimizer, step_size=1, gamma=0.9)
+    scheduler = StepLR(optimizer, step_size=1, gamma=0.99)
     loss_fn = MSELoss()
     dataset = BGSDynamicDataSet(size=480, n=N)
-    train_loader = DataLoader(dataset, batch_size=batch_size, shuffle=False, num_workers=4)
+    train_loader = DataLoader(dataset, batch_size=batch_size, shuffle=False, num_workers=16, drop_last=True)
     dataset = BGSDynamicDataSet(size=128, n=N)
-    test_loader = DataLoader(dataset, batch_size=batch_size, shuffle=False, num_workers=4)
+    test_loader = DataLoader(dataset, batch_size=batch_size, shuffle=False, num_workers=16, drop_last=True)
     device = "cuda" if torch.cuda.is_available() else "cpu"
     model.to(device)
 
     for i in range(epoch):
         print("Epoch {} :".format(i + 1))
 
-        mean_loss = train(train_loader, model, device, loss_fn, optimizer, mean_loss)
+        train(train_loader, model, device, loss_fn, optimizer, mean_loss)
         torch.cuda.empty_cache()
-        test_loss_list_tmp = test(test_loader, model, device, loss_fn)
+        cur_loss = test(test_loader, model, device, loss_fn)
+        print(cur_loss)
         torch.cuda.empty_cache()
 
         scheduler.step()
 
-        torch.save(model, 'model.pkl')
-    
-
-    torch.save(model, 'xxx.pkl')
+        if mean_loss is None or mean_loss > cur_loss:
+            mean_loss = cur_loss
+            torch.save(model, 'model.pkl')
 

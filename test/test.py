@@ -82,7 +82,7 @@ def bfs_cnn(
     res = np.array([])
 
     if os.path.exists('model.pkl'):
-        cnn_model = torch.load('model.pkl', map_location="cpu")
+        cnn_model = torch.load('model.pkl')
     else:
         print('There is not a file named "model.pkl"')
         return
@@ -90,7 +90,7 @@ def bfs_cnn(
     dataset = BGSTestDataset(bgs=bgs, size=1)
     test_loader = DataLoader(dataset, batch_size=1, shuffle=False, num_workers=2)
 
-    device = "cpu"
+    device = "cuda"
 
     cnn_model.to(device)
     cnn_model.eval()
@@ -182,7 +182,7 @@ if __name__ == '__main__':
         plt.plot(x, a1*100, label="cnn", marker='o')
         plt.plot(x, a2*100, label="lcf", marker='o')
         plt.legend()
-        plt.savefig(f'sd_{item}')
+        plt.savefig(f'assets/sd_{item}')
         
         plt.figure()
         plt.xlabel(x_label)
@@ -190,5 +190,5 @@ if __name__ == '__main__':
         plt.plot(x, b1*100, label="cnn", marker='o')
         plt.plot(x, b2*100, label="lcf", marker='o')
         plt.legend()
-        plt.savefig(f'rmse_{item}')
+        plt.savefig(f'assets/rmse_{item}')
 
