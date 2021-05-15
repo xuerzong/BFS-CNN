@@ -1,264 +1,352 @@
 Epoch 1 :
-Training     1 /    60, loss: 0.21148689
-Training    11 /    60, loss: 0.27931863
-Training    21 /    60, loss: 0.16066697
-Training    31 /    60, loss: 0.11347289
-Training    41 /    60, loss: 0.08813993
-Training    51 /    60, loss: 0.07217631
-Training    60 /    60, loss: 0.06213258
-Testing     1 /    16, loss: 0.00616630
-Testing    11 /    16, loss: 0.00616630
-Testing    16 /    16, loss: 0.00616630
-0.006166302133351564
+Training     1 /    60, loss: 0.17085570
+Training    11 /    60, loss: 0.14855555
+Training    21 /    60, loss: 0.08734100
+Training    31 /    60, loss: 0.06277076
+Training    41 /    60, loss: 0.04927738
+Training    51 /    60, loss: 0.04053413
+Training    60 /    60, loss: 0.03498247
+Testing     1 /    60, loss: 0.00392700
+Testing    11 /    60, loss: 0.00392700
+Testing    21 /    60, loss: 0.00392548
+Testing    31 /    60, loss: 0.00392391
+Testing    41 /    60, loss: 0.00380529
+Testing    51 /    60, loss: 0.00372137
+Testing    60 /    60, loss: 0.00366743
+0.0036674268543720246
 Epoch 2 :
-Training     1 /    60, loss: 0.00516391
-Training    11 /    60, loss: 0.00466538
-Training    21 /    60, loss: 0.00428068
-Training    31 /    60, loss: 0.00396277
-Training    41 /    60, loss: 0.00366230
-Training    51 /    60, loss: 0.00338826
-Training    60 /    60, loss: 0.00317330
-Testing     1 /    16, loss: 0.00260230
-Testing    11 /    16, loss: 0.00260230
-Testing    16 /    16, loss: 0.00260230
-0.002602295484393835
+Training     1 /    60, loss: 0.00340981
+Training    11 /    60, loss: 0.00433167
+Training    21 /    60, loss: 0.00391752
+Training    31 /    60, loss: 0.00339557
+Training    41 /    60, loss: 0.00298192
+Training    51 /    60, loss: 0.00266251
+Training    60 /    60, loss: 0.00243835
+Testing     1 /    60, loss: 0.00120096
+Testing    11 /    60, loss: 0.00120096
+Testing    21 /    60, loss: 0.00120829
+Testing    31 /    60, loss: 0.00121585
+Testing    41 /    60, loss: 0.00120130
+Testing    51 /    60, loss: 0.00118754
+Testing    60 /    60, loss: 0.00117322
+0.0011732202023267747
 Epoch 3 :
-Training     1 /    60, loss: 0.00217389
-Training    11 /    60, loss: 0.00194109
-Training    21 /    60, loss: 0.00177156
-Training    31 /    60, loss: 0.00231521
-Training    41 /    60, loss: 0.00220441
-Training    51 /    60, loss: 0.00199956
-Training    60 /    60, loss: 0.00183410
-Testing     1 /    16, loss: 0.00100237
-Testing    11 /    16, loss: 0.00100237
-Testing    16 /    16, loss: 0.00100237
-0.0010023732902482152
+Training     1 /    60, loss: 0.00113197
+Training    11 /    60, loss: 0.00103179
+Training    21 /    60, loss: 0.00095953
+Training    31 /    60, loss: 0.00090603
+Training    41 /    60, loss: 0.00148604
+Training    51 /    60, loss: 0.00153687
+Training    60 /    60, loss: 0.00147687
+Testing     1 /    60, loss: 0.00168053
+Testing    11 /    60, loss: 0.00168053
+Testing    21 /    60, loss: 0.00172000
+Testing    31 /    60, loss: 0.00176074
+Testing    41 /    60, loss: 0.00172611
+Testing    51 /    60, loss: 0.00170529
+Testing    60 /    60, loss: 0.00170172
+0.0017017183204491933
 Epoch 4 :
-Training     1 /    60, loss: 0.00097634
-Training    11 /    60, loss: 0.00083139
-Training    21 /    60, loss: 0.00075757
-Training    31 /    60, loss: 0.00069661
-Training    41 /    60, loss: 0.00065561
-Training    51 /    60, loss: 0.00061569
-Training    60 /    60, loss: 0.00058864
-Testing     1 /    16, loss: 0.00053349
-Testing    11 /    16, loss: 0.00053349
-Testing    16 /    16, loss: 0.00053349
-0.0005334917805157602
+Training     1 /    60, loss: 0.00103400
+Training    11 /    60, loss: 0.00085205
+Training    21 /    60, loss: 0.00077790
+Training    31 /    60, loss: 0.00072756
+Training    41 /    60, loss: 0.00068326
+Training    51 /    60, loss: 0.00064393
+Training    60 /    60, loss: 0.00061742
+Testing     1 /    60, loss: 0.00049170
+Testing    11 /    60, loss: 0.00049170
+Testing    21 /    60, loss: 0.00049199
+Testing    31 /    60, loss: 0.00049230
+Testing    41 /    60, loss: 0.00048031
+Testing    51 /    60, loss: 0.00047237
+Testing    60 /    60, loss: 0.00046825
+0.0004682538410027822
 Epoch 5 :
-Training     1 /    60, loss: 0.00058363
-Training    11 /    60, loss: 0.00052679
-Training    21 /    60, loss: 0.00045471
-Training    31 /    60, loss: 0.00042753
-Training    41 /    60, loss: 0.00065200
-Training    51 /    60, loss: 0.00063442
-Training    60 /    60, loss: 0.00060348
-Testing     1 /    16, loss: 0.00045750
-Testing    11 /    16, loss: 0.00045750
-Testing    16 /    16, loss: 0.00045750
-0.00045749873970635235
+Training     1 /    60, loss: 0.00047343
+Training    11 /    60, loss: 0.00042596
+Training    21 /    60, loss: 0.00041310
+Training    31 /    60, loss: 0.00039959
+Training    41 /    60, loss: 0.00038797
+Training    51 /    60, loss: 0.00037301
+Training    60 /    60, loss: 0.00036194
+Testing     1 /    60, loss: 0.00032804
+Testing    11 /    60, loss: 0.00032804
+Testing    21 /    60, loss: 0.00032379
+Testing    31 /    60, loss: 0.00031941
+Testing    41 /    60, loss: 0.00030851
+Testing    51 /    60, loss: 0.00030116
+Testing    60 /    60, loss: 0.00029672
+0.00029672483603159584
 Epoch 6 :
-Training     1 /    60, loss: 0.00045998
-Training    11 /    60, loss: 0.00035006
-Training    21 /    60, loss: 0.00031674
-Training    31 /    60, loss: 0.00028796
-Training    41 /    60, loss: 0.00028888
-Training    51 /    60, loss: 0.00027796
-Training    60 /    60, loss: 0.00028863
-Testing     1 /    16, loss: 0.00032896
-Testing    11 /    16, loss: 0.00032896
-Testing    16 /    16, loss: 0.00032896
-0.0003289631276857108
+Training     1 /    60, loss: 0.00033206
+Training    11 /    60, loss: 0.00047692
+Training    21 /    60, loss: 0.00040516
+Training    31 /    60, loss: 0.00036056
+Training    41 /    60, loss: 0.00033035
+Training    51 /    60, loss: 0.00030880
+Training    60 /    60, loss: 0.00029372
+Testing     1 /    60, loss: 0.00022964
+Testing    11 /    60, loss: 0.00022964
+Testing    21 /    60, loss: 0.00022749
+Testing    31 /    60, loss: 0.00022527
+Testing    41 /    60, loss: 0.00021705
+Testing    51 /    60, loss: 0.00021177
+Testing    60 /    60, loss: 0.00020917
+0.00020917265986402828
 Epoch 7 :
-Training     1 /    60, loss: 0.00025961
-Training    11 /    60, loss: 0.00033226
-Training    21 /    60, loss: 0.00029202
-Training    31 /    60, loss: 0.00026738
-Training    41 /    60, loss: 0.00024282
-Training    51 /    60, loss: 0.00022869
-Training    60 /    60, loss: 0.00040873
-Testing     1 /    16, loss: 0.00052560
-Testing    11 /    16, loss: 0.00052560
-Testing    16 /    16, loss: 0.00052560
-0.0005255969590507448
+Training     1 /    60, loss: 0.00021288
+Training    11 /    60, loss: 0.00020467
+Training    21 /    60, loss: 0.00020278
+Training    31 /    60, loss: 0.00018422
+Training    41 /    60, loss: 0.00020205
+Training    51 /    60, loss: 0.00020037
+Training    60 /    60, loss: 0.00019428
+Testing     1 /    60, loss: 0.00013594
+Testing    11 /    60, loss: 0.00013594
+Testing    21 /    60, loss: 0.00013551
+Testing    31 /    60, loss: 0.00013507
+Testing    41 /    60, loss: 0.00012942
+Testing    51 /    60, loss: 0.00012606
+Testing    60 /    60, loss: 0.00012498
+0.0001249842733765642
 Epoch 8 :
-Training     1 /    60, loss: 0.00128572
-Training    11 /    60, loss: 0.00056651
-Training    21 /    60, loss: 0.00043198
-Training    31 /    60, loss: 0.00035031
-Training    41 /    60, loss: 0.00030198
-Training    51 /    60, loss: 0.00026954
-Training    60 /    60, loss: 0.00025129
-Testing     1 /    16, loss: 0.00023077
-Testing    11 /    16, loss: 0.00023077
-Testing    16 /    16, loss: 0.00023077
-0.0002307718968950212
+Training     1 /    60, loss: 0.00013917
+Training    11 /    60, loss: 0.00010869
+Training    21 /    60, loss: 0.00011730
+Training    31 /    60, loss: 0.00013006
+Training    41 /    60, loss: 0.00012344
+Training    51 /    60, loss: 0.00011593
+Training    60 /    60, loss: 0.00011245
+Testing     1 /    60, loss: 0.00008870
+Testing    11 /    60, loss: 0.00008870
+Testing    21 /    60, loss: 0.00008740
+Testing    31 /    60, loss: 0.00008606
+Testing    41 /    60, loss: 0.00008158
+Testing    51 /    60, loss: 0.00007873
+Testing    60 /    60, loss: 0.00007737
+7.737107419719299e-05
 Epoch 9 :
-Training     1 /    60, loss: 0.00021613
-Training    11 /    60, loss: 0.00017800
-Training    21 /    60, loss: 0.00015983
-Training    31 /    60, loss: 0.00014289
-Training    41 /    60, loss: 0.00014131
-Training    51 /    60, loss: 0.00013639
-Training    60 /    60, loss: 0.00013449
-Testing     1 /    16, loss: 0.00013839
-Testing    11 /    16, loss: 0.00013839
-Testing    16 /    16, loss: 0.00013839
-0.00013839281746186316
+Training     1 /    60, loss: 0.00009208
+Training    11 /    60, loss: 0.00039839
+Training    21 /    60, loss: 0.00037231
+Training    31 /    60, loss: 0.00030317
+Training    41 /    60, loss: 0.00025471
+Training    51 /    60, loss: 0.00022026
+Training    60 /    60, loss: 0.00019969
+Testing     1 /    60, loss: 0.00008220
+Testing    11 /    60, loss: 0.00008220
+Testing    21 /    60, loss: 0.00008178
+Testing    31 /    60, loss: 0.00008135
+Testing    41 /    60, loss: 0.00007833
+Testing    51 /    60, loss: 0.00007580
+Testing    60 /    60, loss: 0.00007343
+7.343025257190068e-05
 Epoch 10 :
-Training     1 /    60, loss: 0.00014000
-Training    11 /    60, loss: 0.00011513
-Training    21 /    60, loss: 0.00010880
-Training    31 /    60, loss: 0.00010116
-Training    41 /    60, loss: 0.00010390
-Training    51 /    60, loss: 0.00009882
-Training    60 /    60, loss: 0.00009979
-Testing     1 /    16, loss: 0.00010912
-Testing    11 /    16, loss: 0.00010912
-Testing    16 /    16, loss: 0.00010912
-0.00010912017751252279
+Training     1 /    60, loss: 0.00008057
+Training    11 /    60, loss: 0.00006100
+Training    21 /    60, loss: 0.00005963
+Training    31 /    60, loss: 0.00005695
+Training    41 /    60, loss: 0.00005563
+Training    51 /    60, loss: 0.00005796
+Training    60 /    60, loss: 0.00007404
+Testing     1 /    60, loss: 0.00006619
+Testing    11 /    60, loss: 0.00006619
+Testing    21 /    60, loss: 0.00006629
+Testing    31 /    60, loss: 0.00006640
+Testing    41 /    60, loss: 0.00006406
+Testing    51 /    60, loss: 0.00006223
+Testing    60 /    60, loss: 0.00006075
+6.074741637955109e-05
 Epoch 11 :
-Training     1 /    60, loss: 0.00011277
-Training    11 /    60, loss: 0.00029186
-Training    21 /    60, loss: 0.00021298
-Training    31 /    60, loss: 0.00016653
-Training    41 /    60, loss: 0.00014830
-Training    51 /    60, loss: 0.00013325
-Training    60 /    60, loss: 0.00012784
-Testing     1 /    16, loss: 0.00008280
-Testing    11 /    16, loss: 0.00008280
-Testing    16 /    16, loss: 0.00008280
-8.279589383164421e-05
+Training     1 /    60, loss: 0.00008200
+Training    11 /    60, loss: 0.00007156
+Training    21 /    60, loss: 0.00006074
+Training    31 /    60, loss: 0.00005353
+Training    41 /    60, loss: 0.00004972
+Training    51 /    60, loss: 0.00007332
+Training    60 /    60, loss: 0.00007628
+Testing     1 /    60, loss: 0.00007106
+Testing    11 /    60, loss: 0.00007106
+Testing    21 /    60, loss: 0.00006979
+Testing    31 /    60, loss: 0.00006847
+Testing    41 /    60, loss: 0.00006821
+Testing    51 /    60, loss: 0.00006718
+Testing    60 /    60, loss: 0.00006494
+6.494200400387247e-05
 Epoch 12 :
-Training     1 /    60, loss: 0.00018461
-Training    11 /    60, loss: 0.00017974
-Training    21 /    60, loss: 0.00015076
-Training    31 /    60, loss: 0.00012617
-Training    41 /    60, loss: 0.00011917
-Training    51 /    60, loss: 0.00011216
-Training    60 /    60, loss: 0.00010972
-Testing     1 /    16, loss: 0.00012222
-Testing    11 /    16, loss: 0.00012222
-Testing    16 /    16, loss: 0.00012222
-0.00012221626820974052
+Training     1 /    60, loss: 0.00006201
+Training    11 /    60, loss: 0.00005697
+Training    21 /    60, loss: 0.00004906
+Training    31 /    60, loss: 0.00004343
+Training    41 /    60, loss: 0.00004497
+Training    51 /    60, loss: 0.00004495
+Training    60 /    60, loss: 0.00004882
+Testing     1 /    60, loss: 0.00004779
+Testing    11 /    60, loss: 0.00004779
+Testing    21 /    60, loss: 0.00004703
+Testing    31 /    60, loss: 0.00004625
+Testing    41 /    60, loss: 0.00004463
+Testing    51 /    60, loss: 0.00004312
+Testing    60 /    60, loss: 0.00004145
+4.14470094256103e-05
 Epoch 13 :
-Training     1 /    60, loss: 0.00008932
-Training    11 /    60, loss: 0.00006618
-Training    21 /    60, loss: 0.00007238
-Training    31 /    60, loss: 0.00006536
-Training    41 /    60, loss: 0.00006891
-Training    51 /    60, loss: 0.00006804
-Training    60 /    60, loss: 0.00007078
-Testing     1 /    16, loss: 0.00007034
-Testing    11 /    16, loss: 0.00007034
-Testing    16 /    16, loss: 0.00007034
-7.033891597529873e-05
+Training     1 /    60, loss: 0.00004549
+Training    11 /    60, loss: 0.00003398
+Training    21 /    60, loss: 0.00003218
+Training    31 /    60, loss: 0.00002944
+Training    41 /    60, loss: 0.00003296
+Training    51 /    60, loss: 0.00005504
+Training    60 /    60, loss: 0.00005517
+Testing     1 /    60, loss: 0.00005802
+Testing    11 /    60, loss: 0.00005802
+Testing    21 /    60, loss: 0.00005709
+Testing    31 /    60, loss: 0.00005613
+Testing    41 /    60, loss: 0.00005435
+Testing    51 /    60, loss: 0.00005299
+Testing    60 /    60, loss: 0.00005185
+5.185254461442431e-05
 Epoch 14 :
-Training     1 /    60, loss: 0.00009428
-Training    11 /    60, loss: 0.00006516
-Training    21 /    60, loss: 0.00007253
-Training    31 /    60, loss: 0.00006542
-Training    41 /    60, loss: 0.00006875
-Training    51 /    60, loss: 0.00006808
-Training    60 /    60, loss: 0.00007056
-Testing     1 /    16, loss: 0.00008101
-Testing    11 /    16, loss: 0.00008101
-Testing    16 /    16, loss: 0.00008101
-8.100712875602767e-05
+Training     1 /    60, loss: 0.00006583
+Training    11 /    60, loss: 0.00003571
+Training    21 /    60, loss: 0.00003087
+Training    31 /    60, loss: 0.00002701
+Training    41 /    60, loss: 0.00002801
+Training    51 /    60, loss: 0.00003740
+Training    60 /    60, loss: 0.00004431
+Testing     1 /    60, loss: 0.00003124
+Testing    11 /    60, loss: 0.00003124
+Testing    21 /    60, loss: 0.00003001
+Testing    31 /    60, loss: 0.00002874
+Testing    41 /    60, loss: 0.00002803
+Testing    51 /    60, loss: 0.00002710
+Testing    60 /    60, loss: 0.00002566
+2.565624696823458e-05
 Epoch 15 :
-Training     1 /    60, loss: 0.00007186
-Training    11 /    60, loss: 0.00005189
-Training    21 /    60, loss: 0.00006168
-Training    31 /    60, loss: 0.00005731
-Training    41 /    60, loss: 0.00006636
-Training    51 /    60, loss: 0.00006900
-Training    60 /    60, loss: 0.00007142
-Testing     1 /    16, loss: 0.00013257
-Testing    11 /    16, loss: 0.00013257
-Testing    16 /    16, loss: 0.00013257
-0.00013256854435894638
+Training     1 /    60, loss: 0.00003030
+Training    11 /    60, loss: 0.00003116
+Training    21 /    60, loss: 0.00002699
+Training    31 /    60, loss: 0.00002331
+Training    41 /    60, loss: 0.00003812
+Training    51 /    60, loss: 0.00006089
+Training    60 /    60, loss: 0.00006221
+Testing     1 /    60, loss: 0.00004937
+Testing    11 /    60, loss: 0.00004937
+Testing    21 /    60, loss: 0.00004771
+Testing    31 /    60, loss: 0.00004600
+Testing    41 /    60, loss: 0.00004534
+Testing    51 /    60, loss: 0.00004457
+Testing    60 /    60, loss: 0.00004342
+4.3422740418463945e-05
 Epoch 16 :
-Training     1 /    60, loss: 0.00006467
-Training    11 /    60, loss: 0.00005724
-Training    21 /    60, loss: 0.00006407
-Training    31 /    60, loss: 0.00006018
-Training    41 /    60, loss: 0.00006901
-Training    51 /    60, loss: 0.00006768
-Training    60 /    60, loss: 0.00006400
-Testing     1 /    16, loss: 0.00006675
-Testing    11 /    16, loss: 0.00006675
-Testing    16 /    16, loss: 0.00006675
-6.674545875284821e-05
+Training     1 /    60, loss: 0.00005077
+Training    11 /    60, loss: 0.00002940
+Training    21 /    60, loss: 0.00002409
+Training    31 /    60, loss: 0.00002026
+Training    41 /    60, loss: 0.00001937
+Training    51 /    60, loss: 0.00001949
+Training    60 /    60, loss: 0.00002671
+Testing     1 /    60, loss: 0.00006052
+Testing    11 /    60, loss: 0.00006052
+Testing    21 /    60, loss: 0.00005948
+Testing    31 /    60, loss: 0.00005841
+Testing    41 /    60, loss: 0.00005792
+Testing    51 /    60, loss: 0.00005683
+Testing    60 /    60, loss: 0.00005473
+5.473365696767966e-05
 Epoch 17 :
-Training     1 /    60, loss: 0.00004233
-Training    11 /    60, loss: 0.00009133
-Training    21 /    60, loss: 0.00008222
-Training    31 /    60, loss: 0.00007192
-Training    41 /    60, loss: 0.00006717
-Training    51 /    60, loss: 0.00006137
-Training    60 /    60, loss: 0.00005674
-Testing     1 /    16, loss: 0.00005995
-Testing    11 /    16, loss: 0.00005995
-Testing    16 /    16, loss: 0.00005995
-5.995419269311242e-05
+Training     1 /    60, loss: 0.00004799
+Training    11 /    60, loss: 0.00002689
+Training    21 /    60, loss: 0.00002232
+Training    31 /    60, loss: 0.00001874
+Training    41 /    60, loss: 0.00001769
+Training    51 /    60, loss: 0.00002298
+Training    60 /    60, loss: 0.00002677
+Testing     1 /    60, loss: 0.00002456
+Testing    11 /    60, loss: 0.00002456
+Testing    21 /    60, loss: 0.00002380
+Testing    31 /    60, loss: 0.00002301
+Testing    41 /    60, loss: 0.00002274
+Testing    51 /    60, loss: 0.00002209
+Testing    60 /    60, loss: 0.00002078
+2.0780488072584072e-05
 Epoch 18 :
-Training     1 /    60, loss: 0.00003905
-Training    11 /    60, loss: 0.00006877
-Training    21 /    60, loss: 0.00006622
-Training    31 /    60, loss: 0.00005942
-Training    41 /    60, loss: 0.00005696
-Training    51 /    60, loss: 0.00005220
-Training    60 /    60, loss: 0.00004820
-Testing     1 /    16, loss: 0.00004835
-Testing    11 /    16, loss: 0.00004835
-Testing    16 /    16, loss: 0.00004835
-4.8348661948693916e-05
+Training     1 /    60, loss: 0.00003792
+Training    11 /    60, loss: 0.00001999
+Training    21 /    60, loss: 0.00001601
+Training    31 /    60, loss: 0.00001415
+Training    41 /    60, loss: 0.00002528
+Training    51 /    60, loss: 0.00002888
+Training    60 /    60, loss: 0.00002880
+Testing     1 /    60, loss: 0.00002496
+Testing    11 /    60, loss: 0.00002496
+Testing    21 /    60, loss: 0.00002451
+Testing    31 /    60, loss: 0.00002406
+Testing    41 /    60, loss: 0.00002370
+Testing    51 /    60, loss: 0.00002298
+Testing    60 /    60, loss: 0.00002164
+2.1644388713563482e-05
 Epoch 19 :
-Training     1 /    60, loss: 0.00003279
-Training    11 /    60, loss: 0.00006498
-Training    21 /    60, loss: 0.00006052
-Training    31 /    60, loss: 0.00005391
-Training    41 /    60, loss: 0.00005115
-Training    51 /    60, loss: 0.00004708
-Training    60 /    60, loss: 0.00004366
-Testing     1 /    16, loss: 0.00005295
-Testing    11 /    16, loss: 0.00005295
-Testing    16 /    16, loss: 0.00005295
-5.295127266435884e-05
+Training     1 /    60, loss: 0.00002210
+Training    11 /    60, loss: 0.00001869
+Training    21 /    60, loss: 0.00001537
+Training    31 /    60, loss: 0.00001442
+Training    41 /    60, loss: 0.00001480
+Training    51 /    60, loss: 0.00001447
+Training    60 /    60, loss: 0.00002647
+Testing     1 /    60, loss: 0.00004343
+Testing    11 /    60, loss: 0.00004343
+Testing    21 /    60, loss: 0.00004278
+Testing    31 /    60, loss: 0.00004211
+Testing    41 /    60, loss: 0.00004198
+Testing    51 /    60, loss: 0.00004118
+Testing    60 /    60, loss: 0.00003937
+3.9366562850773336e-05
 Epoch 20 :
-Training     1 /    60, loss: 0.00003123
-Training    11 /    60, loss: 0.00006528
-Training    21 /    60, loss: 0.00006261
-Training    31 /    60, loss: 0.00005637
-Training    41 /    60, loss: 0.00005205
-Training    51 /    60, loss: 0.00004725
-Training    60 /    60, loss: 0.00004336
-Testing     1 /    16, loss: 0.00004377
-Testing    11 /    16, loss: 0.00004377
-Testing    16 /    16, loss: 0.00004377
-4.3772492062998936e-05
+Training     1 /    60, loss: 0.00003174
+Training    11 /    60, loss: 0.00002685
+Training    21 /    60, loss: 0.00002504
+Training    31 /    60, loss: 0.00003028
+Training    41 /    60, loss: 0.00004267
+Training    51 /    60, loss: 0.00004076
+Training    60 /    60, loss: 0.00003792
+Testing     1 /    60, loss: 0.00002274
+Testing    11 /    60, loss: 0.00002274
+Testing    21 /    60, loss: 0.00002233
+Testing    31 /    60, loss: 0.00002191
+Testing    41 /    60, loss: 0.00002162
+Testing    51 /    60, loss: 0.00002091
+Testing    60 /    60, loss: 0.00001951
+1.951413578353822e-05
 Epoch 21 :
-Training     1 /    60, loss: 0.00003405
-Training    11 /    60, loss: 0.00006678
-Training    21 /    60, loss: 0.00006372
-Training    31 /    60, loss: 0.00005803
-Training    41 /    60, loss: 0.00005138
-Training    51 /    60, loss: 0.00004574
-Training    60 /    60, loss: 0.00004153
-Testing     1 /    16, loss: 0.00004296
-Testing    11 /    16, loss: 0.00004296
-Testing    16 /    16, loss: 0.00004296
-4.296453334973194e-05
+Training     1 /    60, loss: 0.00002142
+Training    11 /    60, loss: 0.00001279
+Training    21 /    60, loss: 0.00001141
+Training    31 /    60, loss: 0.00000977
+Training    41 /    60, loss: 0.00000939
+Training    51 /    60, loss: 0.00000935
+Training    60 /    60, loss: 0.00001407
+Testing     1 /    60, loss: 0.00001742
+Testing    11 /    60, loss: 0.00001742
+Testing    21 /    60, loss: 0.00001693
+Testing    31 /    60, loss: 0.00001642
+Testing    41 /    60, loss: 0.00001630
+Testing    51 /    60, loss: 0.00001577
+Testing    60 /    60, loss: 0.00001457
+1.4573561687332888e-05
 Epoch 22 :
-Training     1 /    60, loss: 0.00003837
-Training    11 /    60, loss: 0.00006503
-Training    21 /    60, loss: 0.00006434
-Training    31 /    60, loss: 0.00005948
-Training    41 /    60, loss: 0.00005336
-Training    51 /    60, loss: 0.00004761
-Training    60 /    60, loss: 0.00004346
-Testing     1 /    16, loss: 0.00004447
-Testing    11 /    16, loss: 0.00004447
-Testing    16 /    16, loss: 0.00004447
-4.4467094994615763e-05
+Training     1 /    60, loss: 0.00001630
+Training    11 /    60, loss: 0.00001216
+Training    21 /    60, loss: 0.00001142
+Training    31 /    60, loss: 0.00001039
+Training    41 /    60, loss: 0.00003809
+Training    51 /    60, loss: 0.00004495
+Training    60 /    60, loss: 0.00004307
+Testing     1 /    60, loss: 0.00001747
+Testing    11 /    60, loss: 0.00001747
+Testing    21 /    60, loss: 0.00001707
+Testing    31 /    60, loss: 0.00001665
+Testing    41 /    60, loss: 0.00001659
+Testing    51 /    60, loss: 0.00001605
+Testing    60 /    60, loss: 0.00001481
+1.4805759807738165e-05

@@ -92,12 +92,12 @@ def bfs_cnn(
 
     device = "cpu"
 
-    cnn_model.to(device)
-    cnn_model.eval()
+    # cnn_model.to(device)
+    # cnn_model.eval()
 
     for i, x in enumerate(test_loader):
-        x.to(device)
-        output = cnn_model(x)
+        # x.to(device)
+        output = cnn_model.forward(x)
         output = output.view(output.size(0), -1)
         res = np.append(res, output.detach().numpy())
 

@@ -68,17 +68,24 @@ def test(loader, model, device, loss_fn) -> float:
 
 if __name__ == '__main__':
     model: nn.Module
+
+    torch.manual_seed(9)
+    torch.cuda.manual_seed(9)
+
     if os.path.exists('model.pkl'):
         model = torch.load('model.pkl')
     else:
         model = BfsCNN()
-    model = BfsCNN()
+    # model = BfsCNN()
     N = 224
     batch_size = 8
     learn_rate = 0.001
     epoch = 22
 
     mean_loss = None
+
+    #torch.manual_seed(9)
+    #torch.cuda.manual_seed(9)
 
 
     optimizer = Adam(model.parameters(), lr=learn_rate)
@@ -92,15 +99,19 @@ if __name__ == '__main__':
     model.to(device)
 
     for i in range(epoch):
+        
         print("Epoch {} :".format(i + 1))
+        #dataset = BGSDynamicDataSet(size=480, n=N)
+        #train_loader = DataLoader(dataset, batch_size=batch_size, shuffle=False, num_workers=16, drop_last=True)
+        #test_loader = DataLoader(dataset, batch_size=batch_size, shuffle=False, num_workers=16, drop_last=True)
 
-        train(train_loader, model, device, loss_fn, optimizer, mean_loss)
-        torch.cuda.empty_cache()
+        #train(train_loader, model, device, loss_fn, optimizer, mean_loss)
+        #torch.cuda.empty_cache()
         cur_loss = test(test_loader, model, device, loss_fn)
         print(cur_loss)
         torch.cuda.empty_cache()
 
-        scheduler.step()
+        #scheduler.step()
 
         # if mean_loss is None or mean_loss > cur_loss:
         #    mean_loss = cur_loss
