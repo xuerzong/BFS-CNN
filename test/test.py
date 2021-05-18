@@ -10,7 +10,7 @@ from matplotlib import pyplot as plt
 from scipy.optimize import leastsq
 from torch import nn
 from test.dataset import create_data
-
+import time
 fMin = 10.6 # GHz
 fMax = 10.9 # GHz
 LEN = 151
@@ -76,31 +76,24 @@ def get_snr(
 
 
 def bfs_cnn(
+    cnn_model: nn.Module,
     bgs: array
 ) -> array:
-    cnn_model: nn.Module
-    res = np.array([])
-
-    if os.path.exists('model.pkl'):
-        cnn_model = torch.load('model.pkl', map_location="cpu")
-    else:
-        print('There is not a file named "model.pkl"')
-        return
     
     dataset = BGSTestDataset(bgs=bgs, size=1)
     test_loader = DataLoader(dataset, batch_size=1, shuffle=False, num_workers=2)
-
-    device = "cpu"
-
-    # cnn_model.to(device)
-    # cnn_model.eval()
-
+    res = np.array([])
+    device = "cuda"
+    cnn_model.eval()
     for i, x in enumerate(test_loader):
-        # x.to(device)
-        output = cnn_model.forward(x)
-        output = output.view(output.size(0), -1)
-        res = np.append(res, output.detach().numpy())
+        x = x.to(device)
+        time_start = time.time()
+        output = cnn_model(x)
+        time_end = time.time()
 
+        print(f'bfscnn:{time_end - time_start}')
+        output = output.view(output.size(0), -1)
+        res = output.cpu().data.numpy()
     return res
 
 def lcf(
@@ -136,11 +129,11 @@ def RMSE(data, dataH):
 def SD(data):
     return np.std(data, ddof=0)
 
-if __name__ == '__main__':
-
+# if __name__ == '__main__':
+def test_test(cnn_model):
     test_arr = ['sw', 'bfs', 'snr']
 
-    n = 224
+    n = 128
 
     for item in test_arr:
         bgss, bfs, lj = create_data(item, n)
@@ -150,11 +143,13 @@ if __name__ == '__main__':
         lcf_res = np.zeros((len(bgss_cnn), n), dtype=np.float64)
     
         for i in range(len(bgss_cnn)):
-
+            time_start = time.time()
             for j in range(len(bgss_cnn[i])):
                 lcf_res[i][j] = lcf(bgss_cnn[i][j])
+            time_end = time.time()
+            print(f'lfs:{time_end - time_start}')
 
-            cnn_res[i] = bfs_cnn(bgs=bgss_cnn[i].T)
+            cnn_res[i] = bfs_cnn(bgs=bgss_cnn[i].T, cnn_model=cnn_model)
     
         _bfs = np.array([[bfs[i]] * n for i in range(len(bfs))])
 

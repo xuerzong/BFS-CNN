@@ -11,7 +11,7 @@ import os
 import numpy as np
 from src.models import BfsCNN
 from src.utils import write_csv
-
+from test.test import test_test
 array = np.ndarray
 
 
@@ -77,10 +77,10 @@ if __name__ == '__main__':
     else:
         model = BfsCNN()
     # model = BfsCNN()
-    N = 224
-    batch_size = 8
+    N = 128
+    batch_size = 16
     learn_rate = 0.001
-    epoch = 22
+    epoch = 30
 
     mean_loss = None
 
@@ -89,15 +89,14 @@ if __name__ == '__main__':
 
 
     optimizer = Adam(model.parameters(), lr=learn_rate)
-    scheduler = StepLR(optimizer, step_size=1, gamma=0.99)
+    scheduler = StepLR(optimizer, step_size=1, gamma=0.98)
     loss_fn = MSELoss()
     dataset = BGSDynamicDataSet(size=480, n=N)
     train_loader = DataLoader(dataset, batch_size=batch_size, shuffle=False, num_workers=16, drop_last=True)
     dataset = BGSDynamicDataSet(size=128, n=N)
     test_loader = DataLoader(dataset, batch_size=batch_size, shuffle=False, num_workers=16, drop_last=True)
     device = "cuda" if torch.cuda.is_available() else "cpu"
-    model.to(device)
-
+    model.to(device)    
     for i in range(epoch):
         
         print("Epoch {} :".format(i + 1))
@@ -105,8 +104,8 @@ if __name__ == '__main__':
         #train_loader = DataLoader(dataset, batch_size=batch_size, shuffle=False, num_workers=16, drop_last=True)
         #test_loader = DataLoader(dataset, batch_size=batch_size, shuffle=False, num_workers=16, drop_last=True)
 
-        #train(train_loader, model, device, loss_fn, optimizer, mean_loss)
-        #torch.cuda.empty_cache()
+        train(train_loader, model, device, loss_fn, optimizer, mean_loss)
+        torch.cuda.empty_cache()
         cur_loss = test(test_loader, model, device, loss_fn)
         print(cur_loss)
         torch.cuda.empty_cache()
@@ -115,5 +114,6 @@ if __name__ == '__main__':
 
         # if mean_loss is None or mean_loss > cur_loss:
         #    mean_loss = cur_loss
-       # torch.save(model, 'model.pkl')
+    test(test_loader, model, device, loss_fn)   # torch.save(model, 'model.pkl')
+    test_test(model)
     torch.save(model, "model.pkl")
