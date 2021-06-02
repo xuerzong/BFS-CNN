@@ -2,16 +2,13 @@ import torch
 from torch.utils.data import Dataset
 from torch.tensor import Tensor
 import numpy as np
-import math
-from typing import Tuple, Any
-import matplotlib.pyplot as plt
-from mpl_toolkits import mplot3d
+from typing import Tuple
 
 array = np.ndarray
 LEN = 151
 
-fMin = 10.6 # GHz
-fMax = 10.9 # GHz
+fMin = 10.75 # GHz
+fMax = 10.95 # GHz
 
 class BGSDynamicDataSet(Dataset):
     """
@@ -78,7 +75,6 @@ def create_bgs(
 def get_bfs(
     n: int
 ) -> array:
-    # return np.linspace(fMin + (fMax - fMin)*0.05, fMin + (fMax - fMin)*0.95, n)
     return fMin + (fMax - fMin) * np.random.uniform(0.05, 0.95, n)
 
 
@@ -110,22 +106,6 @@ def normalization(
     sw: array
 ) -> Tuple[array, array]:
     return (bfs - fMin) / (fMax - fMin), sw / (fMax - fMin)
-
-
-def plot_data(data: array) -> None:
-    plt.plot(np.arange(len(data)), data)
-    plt.show()
-
-
-def plot_data_3D(data: array) -> None:
-    x = np.arange(len(data[0]))
-    y = np.arange(len(data))
-    X, Y = np.meshgrid(x, y)
-    Z = data
-
-    ax = plt.axes(projection='3d')
-    ax.contour3D(X, Y, Z, x, cmap='RdBu')
-    plt.show()
 
 if __name__ == '__main__':
     pass

@@ -45,9 +45,9 @@ class ResBlock(nn.Module):
         return nn.ReLU()(x + out)
 
 
-class BfsCNN(nn.Module):
+class BFSCNN(nn.Module):
     def __init__(self):
-        super(BfsCNN, self).__init__()
+        super(BFSCNN, self).__init__()
         self.conv1 = nn.Sequential(
             nn.Conv2d(
                 in_channels=1,
@@ -85,6 +85,6 @@ class BfsCNN(nn.Module):
 if __name__ == '__main__':
     x = torch.randn([10, 1, 151, 120])
     print(x.shape)
-    model = BfsCNN()
+    model = BFSCNN()
     output = model(x)
     print(output.shape)

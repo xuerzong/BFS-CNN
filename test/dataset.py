@@ -1,18 +1,27 @@
 import numpy as np
-from typing import Any
 from torch.utils.data import Dataset
 from src.dataset import awgn, normalization, create_bgs
-
-import matplotlib.pyplot as plt
-
+import torch
 
 
-fMin = 10.6 # GHz
-fMax = 10.9 # GHz
+fMin = 10.775
+fMax = 10.925
 
 LEN = 151
 
 array = np.ndarray
+
+
+class BGSTestDataset(Dataset):
+    def __init__(self, bgs: array, size: int):
+        self.bgs = bgs
+        self.size = size
+
+    def __getitem__(self, item):
+        return torch.tensor([self.bgs], dtype=torch.float)
+
+    def __len__(self):
+        return self.size
 
 
 def create_data(name: str, n: int):
